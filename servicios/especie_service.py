@@ -9,26 +9,26 @@ class EspecieService(BaseService):
 
     @staticmethod
     def listar():
-
-        return EspecieDAO.listar()
+        dao = EspecieDAO()
+        return dao.listar()
 
     @staticmethod
     def buscar(id_especie):
-
-        return EspecieDAO.buscar_por_id(id_especie)
+        dao = EspecieDAO()
+        return dao.obtener(id_especie)
 
     @staticmethod
     def guardar(especie: Especie):
+        dao = EspecieDAO()
 
         if BaseService.es_nuevo(especie):
+            dao.insertar(especie)
+            return especie.id_especie
 
-            return EspecieDAO.insertar(especie)
-
-        EspecieDAO.editar(especie)
-
+        dao.actualizar(especie)
         return especie.id_especie
 
     @staticmethod
     def eliminar(id_especie):
-
-        return EspecieDAO.eliminar(id_especie)
+        dao = EspecieDAO()
+        dao.eliminar(id_especie)
