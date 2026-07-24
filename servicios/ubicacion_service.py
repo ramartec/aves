@@ -9,26 +9,26 @@ class UbicacionService(BaseService):
 
     @staticmethod
     def listar():
-
-        return UbicacionDAO.listar()
+        dao = UbicacionDAO()
+        return dao.listar()
 
     @staticmethod
     def buscar(id_ubicacion):
-
-        return UbicacionDAO.buscar_por_id(id_ubicacion)
+        dao = UbicacionDAO()
+        return dao.obtener(id_ubicacion)
 
     @staticmethod
     def guardar(ubicacion: Ubicacion):
+        dao = UbicacionDAO()
 
         if BaseService.es_nuevo(ubicacion):
+            dao.insertar(ubicacion)
+            return ubicacion.id_ubicacion
 
-            return UbicacionDAO.insertar(ubicacion)
-
-        UbicacionDAO.editar(ubicacion)
-
+        dao.actualizar(ubicacion)
         return ubicacion.id_ubicacion
 
     @staticmethod
     def eliminar(id_ubicacion):
-
-        return UbicacionDAO.eliminar(id_ubicacion)
+        dao = UbicacionDAO()
+        dao.eliminar(id_ubicacion)
