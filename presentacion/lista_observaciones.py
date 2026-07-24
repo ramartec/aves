@@ -65,7 +65,7 @@ class ListaObservaciones(ctk.CTkScrollableFrame):
 
                     if archivo.tipo == "Fotografia":
 
-                        ruta_imagen = archivo.ruta
+                        ruta_imagen = archivo.archivo
 
                         break
 
