@@ -10,82 +10,57 @@ class BuscadorService:
         sexo="",
         fecha=None
     ):
-
         observaciones = ObservacionService.listar()
-
         resultado = []
 
-        for obs in observaciones:
+        especie_buscada = (especie or "").strip().lower()
+        ubicacion_buscada = (ubicacion or "").strip().lower()
+        sexo_buscado = (sexo or "").strip().lower()
 
-            # -------------------------
-            # especie
-            # -------------------------
+        for observacion in observaciones:
 
-            if especie:
+            if especie_buscada:
+                nombre_comun = ""
+                nombre_cientifico = ""
 
-                nombre = ""
+                if observacion.especie:
+                    nombre_comun = (
+                        observacion.especie.nombre_comun or ""
+                    ).lower()
 
-                try:
-                    nombre = obs.especie.nombre_comun.lower()
-                except:
-                    pass
+                    nombre_cientifico = (
+                        observacion.especie.nombre_cientifico or ""
+                    ).lower()
 
-                cientifico = ""
-
-                try:
-                    cientifico = obs.especie.nombre_cientifico.lower()
-                except:
-                    pass
-
-                if especie.lower() not in nombre and especie.lower() not in cientifico:
+                if (
+                    especie_buscada not in nombre_comun
+                    and especie_buscada not in nombre_cientifico
+                ):
                     continue
 
-            # -------------------------
-            # ubicación
-            # -------------------------
-
-            if ubicacion:
-
+            if ubicacion_buscada:
                 lugar = ""
 
-                try:
-                    lugar = obs.ubicacion.nombre.lower()
-                except:
-                    pass
+                if observacion.ubicacion:
+                    lugar = (
+                        observacion.ubicacion.sitio or ""
+                    ).lower()
 
-                if ubicacion.lower() not in lugar:
+                if ubicacion_buscada not in lugar:
                     continue
 
-            # -------------------------
-            # sexo
-            # -------------------------
+            if sexo_buscado:
+                sexo_observacion = (
+                    observacion.sexo or ""
+                ).lower()
 
-            if sexo:
-
-                try:
-
-                    if obs.sexo.lower() != sexo.lower():
-                        continue
-
-                except:
-
+                if sexo_buscado != sexo_observacion:
                     continue
-
-            # -------------------------
-            # fecha
-            # -------------------------
 
             if fecha is not None:
-
-                try:
-
-                    if obs.fecha != fecha:
-                        continue
-
-                except:
-
+                if observacion.fecha != fecha:
                     continue
 
-            resultado.append(obs)
+            resultado.append(observacion)
 
         return resultado
