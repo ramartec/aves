@@ -9,31 +9,31 @@ class ArchivoService(BaseService):
 
     @staticmethod
     def listar():
-
-        return ArchivoDAO.listar()
+        dao = ArchivoDAO()
+        return dao.listar()
 
     @staticmethod
     def listar_por_observacion(id_observacion):
-
-        return ArchivoDAO.listar_por_observacion(id_observacion)
+        dao = ArchivoDAO()
+        return dao.listar_por_observacion(id_observacion)
 
     @staticmethod
     def buscar(id_archivo):
-
-        return ArchivoDAO.buscar_por_id(id_archivo)
+        dao = ArchivoDAO()
+        return dao.obtener(id_archivo)
 
     @staticmethod
     def guardar(archivo: Archivo):
+        dao = ArchivoDAO()
 
         if BaseService.es_nuevo(archivo):
+            dao.insertar(archivo)
+            return archivo.id_archivo
 
-            return ArchivoDAO.insertar(archivo)
-
-        ArchivoDAO.editar(archivo)
-
+        dao.actualizar(archivo)
         return archivo.id_archivo
 
     @staticmethod
     def eliminar(id_archivo):
-
-        return ArchivoDAO.eliminar(id_archivo)
+        dao = ArchivoDAO()
+        dao.eliminar(id_archivo)
