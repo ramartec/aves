@@ -53,8 +53,8 @@ class ObservacionDAO:
             )
 
         return observaciones
-    
-        # =====================================================
+
+    # =====================================================
 
     def obtener(self, id_observacion):
 
@@ -111,8 +111,6 @@ class ObservacionDAO:
             fila["id_observacion"]
 
         )
-    
-        # =====================================================
 
         observacion = Observacion(
 
@@ -141,8 +139,8 @@ class ObservacionDAO:
         )
 
         return observacion
-    
-        # =====================================================
+
+    # =====================================================
 
     def listar_por_especie(self, id_especie):
 
@@ -171,3 +169,141 @@ class ObservacionDAO:
             and observacion.ubicacion.id_ubicacion == id_ubicacion
 
         ]
+
+    # =====================================================
+    # CAMBIO: métodos nuevos — insertar, actualizar, eliminar
+    # =====================================================
+
+    def insertar(self, observacion):
+
+        conexion = self.db.conectar()
+
+        cursor = conexion.cursor()
+
+        cursor.execute(
+
+            """
+
+            INSERT INTO observaciones
+
+            (id_especie, id_ubicacion, fecha, hora,
+
+             cantidad, sexo, edad, comportamiento, notas)
+
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+
+            """,
+
+            (
+
+                observacion.id_especie,
+
+                observacion.id_ubicacion,
+
+                observacion.fecha,
+
+                observacion.hora,
+
+                observacion.cantidad,
+
+                observacion.sexo,
+
+                observacion.edad,
+
+                observacion.comportamiento,
+
+                observacion.notas
+
+            )
+
+        )
+
+        conexion.commit()
+
+        observacion.id_observacion = cursor.lastrowid
+
+        cursor.close()
+
+        conexion.close()
+
+    # =====================================================
+
+    def actualizar(self, observacion):
+
+        conexion = self.db.conectar()
+
+        cursor = conexion.cursor()
+
+        cursor.execute(
+
+            """
+
+            UPDATE observaciones
+
+            SET id_especie=%s, id_ubicacion=%s, fecha=%s, hora=%s,
+
+                cantidad=%s, sexo=%s, edad=%s, comportamiento=%s, notas=%s
+
+            WHERE id_observacion=%s
+
+            """,
+
+            (
+
+                observacion.id_especie,
+
+                observacion.id_ubicacion,
+
+                observacion.fecha,
+
+                observacion.hora,
+
+                observacion.cantidad,
+
+                observacion.sexo,
+
+                observacion.edad,
+
+                observacion.comportamiento,
+
+                observacion.notas,
+
+                observacion.id_observacion
+
+            )
+
+        )
+
+        conexion.commit()
+
+        cursor.close()
+
+        conexion.close()
+
+    # =====================================================
+
+    def eliminar(self, id_observacion):
+
+        conexion = self.db.conectar()
+
+        cursor = conexion.cursor()
+
+        cursor.execute(
+
+            """
+
+            DELETE FROM observaciones
+
+            WHERE id_observacion=%s
+
+            """,
+
+            (id_observacion,)
+
+        )
+
+        conexion.commit()
+
+        cursor.close()
+
+        conexion.close()
