@@ -535,7 +535,7 @@ class PantallaNuevaObservacion(ctk.CTkFrame):
 
             for ubicacion in self.ubicaciones:
 
-                if ubicacion.nombre == self.cmbUbicacion.get():
+                if ubicacion.sitio == self.cmbUbicacion.get():
 
                     observacion.id_ubicacion = ubicacion.id_ubicacion
 
