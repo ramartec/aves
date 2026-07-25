@@ -11,7 +11,7 @@ class Conexion:
 
     PASSWORD = ""
 
-    BASE_DATOS = "avesRonald"
+    BASE_DATOS = "avesronald"
 
     @staticmethod
     def obtener_conexion():
