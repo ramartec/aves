@@ -9,7 +9,7 @@ class Database:
 
     PASSWORD = ""
 
-    DATABASE = "avesRonald"
+    DATABASE = "avesronald"
 
     PORT = 3306
 
